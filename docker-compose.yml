@@ -1,0 +1,21 @@
+version: "2"
+
+services:
+  strongswan:
+    restart: always
+    image: houselabs/strongswan
+    environment:
+      VPN_SUBNET: 192.168.1.0/24
+    volumes:
+      - ./strongswan/ipsec.conf:/etc/ipsec.conf
+      - ./strongswan/ipsec.d:/etc/ipsec.d
+      - ./strongswan/ipsec.secrets:/etc/ipsec.secrets
+      - ./strongswan/strongswan.conf:/etc/strongswan.conf
+      - ./strongswan/strongswan.d:/etc/strongswan.d
+      - ./strongswan/strongswan/log/charon.log:/var/log/charon.log
+      - /etc/timezone:/etc/timezone:ro
+      - /lib/modules:/lib/modules:ro
+      - /etc/localtime:/etc/localtime:ro
+    cap_add:
+      - ALL
+    network_mode: host
